@@ -5,7 +5,7 @@ class User(BaseModel):
     name: str
     surname: str
     age: int
-    price: float = Field(gt=0, description='Цена должна быть больше нуля')
+    rating: int = Field(gt=0, description='Рейтинг должен быть больше нуля')
 
     @computed_field
     def full_name(self) -> str:
@@ -14,7 +14,7 @@ class User(BaseModel):
     @field_validator('age')
     def check_age(cls, value) -> str:
         if value < 18:
-            raise ValueError('персик дозревай')
+            raise ValueError('недостаточно лет')
         return value
     
     @model_validator(mode="after")

@@ -1,4 +1,5 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Form
+from fastapi.responses import FileResponse
 from app.api.model import User
 from typing import List
 
@@ -11,8 +12,16 @@ users = APIRouter()
 async def get_users():
     return db
 
-@users.post('/', status_code=201)
-async def add_user(new_user: User):
+@users.get('/new_user')
+async def get_users():
+    return FileResponse("templates/new_user.html")
+
+@users.post('/new_user', status_code=201)
+async def add_user(name: str = Form(...),
+                   surname: str = Form(...),
+                   age: int = Form(...),
+                   rating: int = Form(...)):
+    new_user = User(name = name, surname = surname, age = age, rating = rating)
     new_user = new_user.model_dump()
     db.append(new_user)
     return {'id': len(db) - 1}
