@@ -2,7 +2,5 @@
 dockerfile
 __pychache__
 .env
-.dockerignore
-.gitignore
 *.log
 *.log.*
