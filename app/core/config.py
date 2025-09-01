@@ -11,7 +11,7 @@ class Config:
     secret_key: str
     debug: bool
 
-def load_config(path: str = None) -> Config:
+def load_config() -> Config:
     env = Env()
     env.read_env()
 

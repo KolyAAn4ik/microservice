@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException, Form
 from fastapi.responses import FileResponse
+from pydantic import ValidationError
 from app.api.model import User
 from typing import List
 
@@ -21,10 +22,14 @@ async def add_user(name: str = Form(...),
                    surname: str = Form(...),
                    age: int = Form(...),
                    rating: int = Form(...)):
-    new_user = User(name = name, surname = surname, age = age, rating = rating)
+    try:
+        new_user = User(name = name, surname = surname, age = age, rating = rating)
+    except ValidationError:
+        raise HTTPException(status_code=422)
     new_user = new_user.model_dump()
     db.append(new_user)
     return {'id': len(db) - 1}
+    
 
 @users.put('/{id}')
 async def change_user(id: int, user: User):
