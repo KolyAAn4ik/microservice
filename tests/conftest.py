@@ -3,6 +3,7 @@ from app.main import app
 from app.api.users import db
 import pytest
 
+
 @pytest.fixture
 def client():
     db.clear()

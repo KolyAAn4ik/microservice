@@ -9,29 +9,33 @@ db = []
 users = APIRouter()
 
 
-@users.get('/', response_model=List[User])
+@users.get("/", response_model=List[User])
 async def get_users():
     return db
 
-@users.get('/new_user')
-async def get_users():
+
+@users.get("/new_user")
+async def form_for_user():
     return FileResponse("templates/new_user.html")
 
-@users.post('/new_user', status_code=201)
-async def add_user(name: str = Form(...),
-                   surname: str = Form(...),
-                   age: int = Form(...),
-                   rating: int = Form(...)):
+
+@users.post("/new_user", status_code=201)
+async def add_user(
+    name: str = Form(...),
+    surname: str = Form(...),
+    age: int = Form(...),
+    rating: int = Form(...),
+):
     try:
-        new_user = User(name = name, surname = surname, age = age, rating = rating)
+        new_user = User(name=name, surname=surname, age=age, rating=rating)
     except ValidationError:
         raise HTTPException(status_code=422)
     new_user = new_user.model_dump()
     db.append(new_user)
-    return {'id': len(db) - 1}
-    
+    return {"id": len(db) - 1}
 
-@users.put('/{id}')
+
+@users.put("/{id}")
 async def change_user(id: int, user: User):
     user = user.model_dump()
     if id in range(len(db)):
@@ -39,10 +43,10 @@ async def change_user(id: int, user: User):
         return "ok"
     raise HTTPException(status_code=404, detail="wrong id")
 
-@users.delete('/{id}')
+
+@users.delete("/{id}")
 async def delete_user(id: int):
     if id in range(len(db)):
         db.pop(id)
         return "ok"
-    raise HTTPException(status_code=404, detail='wrong id')
-
+    raise HTTPException(status_code=404, detail="wrong id")
