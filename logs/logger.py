@@ -6,7 +6,7 @@ def setup_logger():
     logger.setLevel(logging.DEBUG)
 
     fh = logging.FileHandler(filename=f"{__name__}.log", mode="w")
-    fh.setLevel(logging.INFO)
+    fh.setLevel(logging.DEBUG)
 
     formatter = logging.Formatter(
         "%(asctime)s - %(name)s - %(levelname)s - %(message)s"

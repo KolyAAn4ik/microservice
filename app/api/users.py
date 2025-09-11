@@ -3,9 +3,9 @@ from fastapi.responses import FileResponse
 from pydantic import ValidationError
 from app.api.model import User
 from typing import List
+from app.main import db
 
 
-db = []
 users = APIRouter()
 
 

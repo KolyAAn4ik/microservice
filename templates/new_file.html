@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .error{color: red; font-weight: bolder}
+    </style>
+</head>
+<body>
+    <form action="/new_file" method="POST" enctype="multipart/form-data">
+        Файл: <input type="file" name="file" accept=".txt" required><br>
+        <button type="submit">Добавить</button>
+        {% if error %}<p class="error">{{message}}</p>
+        {% endif %}
+    </form>
+</body>
+</html>
